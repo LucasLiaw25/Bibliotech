@@ -5,12 +5,13 @@ import com.liaw.BibliotechAPI.model.Loan;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.ISBN;
 
 import java.util.List;
 
 public record BookDTO(
         @NotBlank String title, @NotBlank String author,
-        @NotBlank String isbn, @NotNull int yearPublication,
+        @ISBN String isbn, @NotNull int yearPublication,
         @NotBlank List<Loan> loans
 ) {
 

@@ -5,11 +5,12 @@ import com.liaw.BibliotechAPI.model.Users;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.List;
 
 public record UsersDTO(
-        @NotBlank String name, @NotBlank String cpf,
+        @NotBlank String name, @CPF String cpf,
         @NotBlank String email, @NotNull List<Loan> loans
 ) {
 
