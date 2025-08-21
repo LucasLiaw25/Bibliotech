@@ -1,6 +1,8 @@
 package com.liaw.BibliotechAPI.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +28,7 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     private List<Loan> loans;
+
+    public Book(@NotBlank String title, @NotBlank String author, @NotBlank String isbn, @NotNull int yearPublication, @NotBlank List<Loan> loans) {
+    }
 }
