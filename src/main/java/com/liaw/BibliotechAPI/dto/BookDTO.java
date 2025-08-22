@@ -11,17 +11,17 @@ import java.util.List;
 
 public record BookDTO(
         @NotBlank String title, @NotBlank String author,
-        @ISBN String isbn, @NotNull int yearPublication,
-        @NotBlank List<Loan> loans
+        @NotBlank String isbn, @NotNull int yearPublication,
+        List<Loan> loans
 ) {
 
-    public static Book toEntity (BookDTO dto){
+    public Book toEntity() {
         return new Book(
-                dto.title,
-                dto.author,
-                dto.isbn,
-                dto.yearPublication,
-                dto.loans
+                this.title(),
+                this.author(),
+                this.isbn(),
+                this.yearPublication(),
+                this.loans()
         );
     }
 

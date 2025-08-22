@@ -17,14 +17,14 @@ public record LoanDTO(
         @NotNull BigDecimal fine, @NotBlank Status status
 ) {
 
-    public static Loan toEntity(LoanDTO dto){
+    public Loan toEntity(){
         return new Loan(
-                dto.users,
-                dto.book,
-                dto.loanDate,
-                dto.returnDate,
-                dto.fine,
-                dto.status
+                this.users,
+                this.book,
+                this.loanDate,
+                this.returnDate,
+                this.fine,
+                this.status
         );
     }
 

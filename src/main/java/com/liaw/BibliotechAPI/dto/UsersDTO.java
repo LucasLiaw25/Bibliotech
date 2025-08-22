@@ -11,15 +11,15 @@ import java.util.List;
 
 public record UsersDTO(
         @NotBlank String name, @CPF String cpf,
-        @NotBlank String email, @NotNull List<Loan> loans
+        @NotBlank String email, List<Loan> loans
 ) {
 
-    public static Users toEntity(UsersDTO dto){
+    public Users toEntity(){
         return new Users(
-                dto.name,
-                dto.cpf,
-                dto.email,
-                dto.loans
+                this.name,
+                this.cpf,
+                this.email,
+                this.loans
         );
     }
 
