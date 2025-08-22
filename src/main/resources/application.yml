@@ -2,10 +2,10 @@ spring:
   application:
     name: BibliotechAPI
   datasource:
-    url: jdbc:h2:file:./data/BibliotecaDb
+    url: ${DATABASE_URL}
     driver: org.h2.Driver
-    username: lucas
-    password: 123
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
