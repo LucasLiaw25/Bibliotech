@@ -18,7 +18,7 @@ public class UsersService {
     private final UsersRepository repository;
 
     public ResponseEntity<UsersDTO> createUser(UsersDTO dto){
-        Users users = UsersDTO.toEntity(dto);
+        Users users = dto.toEntity();
         repository.save(users);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
@@ -31,7 +31,7 @@ public class UsersService {
         return ResponseEntity.ok(dto);
     }
 
-    public ResponseEntity<UsersDTO> searchUserId(
+    public ResponseEntity<UsersDTO> searchUser(
             Long id, String cpf, String name)
     {
         Optional<Users> user = repository.findByIdAndCpfAndName(

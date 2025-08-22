@@ -4,6 +4,8 @@ import com.liaw.BibliotechAPI.dto.BookDTO;
 import com.liaw.BibliotechAPI.model.Book;
 import com.liaw.BibliotechAPI.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +21,7 @@ public class BookService {
     private final BookRepository repository;
 
     public ResponseEntity<BookDTO> createBook(BookDTO dto){
-        Book book = BookDTO.toEntity(dto);
+        Book book = dto.toEntity();
         repository.save(book);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
@@ -32,25 +34,33 @@ public class BookService {
         return ResponseEntity.ok(bookDto);
     }
 
-    public ResponseEntity<BookDTO> searchBook(
-            Long id, String title,
-            String author, String isbn
+    public ResponseEntity<List<BookDTO>> searchBook(
+            Long id, String title, String author, String isbn
     ){
-        Optional<Book> book = repository.findByIdAndTitleAndAuthorAndIsbn(
-                id, title, author, isbn
-        );
-        if (book.isPresent()){
-            Book book_found = book.get();
-            BookDTO dto = BookDTO.toDto(book_found);
-            return ResponseEntity.ok(dto);
-        }
-        return ResponseEntity.notFound().build();
+        Book book = new Book();
+        book.setId(id);
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setIsbn(isbn);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withIgnoreNullValues()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Book> example = Example.of(book, matcher);
+
+        List<Book> book_found = repository.findAll(example);
+        List<BookDTO> dto = book_found.stream()
+                .map(BookDTO::toDto).toList();
+
+        return ResponseEntity.ok(dto);
     }
 
     public ResponseEntity<BookDTO> updateBook(Long id, BookDTO dto){
         Optional<Book> book = repository.findById(id);
         if (book.isPresent()){
-            Book book_found = BookDTO.toEntity(dto);
+            Book book_found = dto.toEntity();
             book_found.setId(id);
             return ResponseEntity.ok(dto);
         }

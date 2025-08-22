@@ -17,7 +17,7 @@ public class LoanService {
     private final LoanRepository repository;
 
     public ResponseEntity<LoanDTO> createLoan(LoanDTO dto){
-        Loan loan = LoanDTO.toEntity(dto);
+        Loan loan = dto.toEntity();
         repository.save(loan);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
