@@ -35,6 +35,15 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Loan(@NotNull Users users, @NotNull Book book, @NotBlank LocalDate loanDate, @NotBlank LocalDate returnDate, @NotNull BigDecimal fine, @NotBlank Status status) {
+    public Loan(Users users, Book book, LocalDate loanDate, LocalDate returnDate, BigDecimal fine, Status status) {
+        this.users = users;
+        this.book = book;
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
+        this.fine = fine;
+        this.status = status;
+
+
+
     }
 }

@@ -31,6 +31,10 @@ public class Users {
     @OneToMany(mappedBy = "users")
     private List<Loan> loans;
 
-    public Users(@NotBlank String name, @NotBlank String cpf, @NotBlank String email, @NotNull List<Loan> loans) {
+    public Users(String name, String cpf, String email, List<Loan> loans) {
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+        this.loans = loans;
     }
 }
