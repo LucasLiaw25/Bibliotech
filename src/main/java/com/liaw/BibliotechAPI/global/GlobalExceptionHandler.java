@@ -1,5 +1,6 @@
 package com.liaw.BibliotechAPI.global;
 
+import com.liaw.BibliotechAPI.exception.BookNotFoundException;
 import com.liaw.BibliotechAPI.exception.ErrorMessage;
 import com.liaw.BibliotechAPI.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ErrorMessage handleUserNotFoundException(UserNotFoundException e){
-        return new ErrorMessage(HttpStatus.NOT_FOUND.value(),
+        return new ErrorMessage(
+                HttpStatus.NOT_FOUND.value(),
                 "Usuário não encontrado",
                 List.of()
                 );
     }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ErrorMessage handleBookNotFoundException
 
 }
