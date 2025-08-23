@@ -9,6 +9,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,5 +47,29 @@ public class UsersService {
         return ResponseEntity.ok(dto);
     }
 
+    @Transactional
+    public ResponseEntity<String> deleteUser(Long id){
+        Optional<Users> users = repository.findById(id);
+
+        if (users.isPresent()){
+            Users users_found = users.get();
+            users_found.setActive(false);
+            return ResponseEntity.ok("Usuário desativado");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Transactional
+    public ResponseEntity<UsersDTO> activateUser(Long id){
+        Optional<Users> user = repository.findById(id);
+        Users user_found = user.get();
+
+        if (user.isPresent()&& user_found.getActive()==false){
+            user_found.setActive(true);
+            UsersDTO dto = UsersDTO.toDto(user_found);
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }

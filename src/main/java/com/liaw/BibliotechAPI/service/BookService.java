@@ -9,6 +9,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +57,29 @@ public class BookService {
             book.setId(id);
             BookDTO dto = BookDTO.toDto(book);
             repository.save(book);
+            return ResponseEntity.ok(dto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteBook(Long id){
+        Optional<Book> book = repository.findById(id);
+        if (book.isPresent()){
+            Book book_found = book.get();
+            book_found.setActive(false);
+            return ResponseEntity.ok("Livro desativado");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<BookDTO> activeBook(Long id){
+        Optional<Book> book = repository.findById(id);
+        Book book_found = book.get();
+        if (book.isPresent()&&book_found.getActive()==false){
+            book_found.setActive(true);
+            repository.save(book_found);
+            BookDTO dto = BookDTO.toDto(book_found);
             return ResponseEntity.ok(dto);
         }
         return ResponseEntity.notFound().build();
