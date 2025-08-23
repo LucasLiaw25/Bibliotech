@@ -3,9 +3,7 @@ package com.liaw.BibliotechAPI.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -23,17 +21,10 @@ public class Book {
 
     @Column(unique = true)
     private String isbn;
-    private int yearPublication;
-    private boolean active = true;
+    private Integer yearPublication;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "book")
     private List<Loan> loans;
 
-    public Book(String title, String author, String isbn, int yearPublication, List<Loan> loans) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
-        this.yearPublication = yearPublication;
-        this.loans = loans;
-    }
 }

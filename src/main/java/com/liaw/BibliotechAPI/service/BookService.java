@@ -29,18 +29,10 @@ public class BookService {
             Long id, String title, String author, String isbn
     ){
         Book book = new Book();
-        if (id != null) {
-            book.setId(id);
-        }
-        if (title != null) {
-            book.setTitle(title);
-        }
-        if (author != null) {
-            book.setAuthor(author);
-        }
-        if (isbn != null) {
-            book.setIsbn(isbn);
-        }
+        book.setId(id);
+        book.setTitle(title);
+        book.setAuthor(author);
+        book.setIsbn(isbn);
 
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreNullValues()

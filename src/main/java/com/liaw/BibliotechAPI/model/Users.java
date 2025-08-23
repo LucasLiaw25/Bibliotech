@@ -26,15 +26,9 @@ public class Users {
 
     @Column(unique = true)
     private String email;
-    private boolean active = true;
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "users")
     private List<Loan> loans;
 
-    public Users(String name, String cpf, String email, List<Loan> loans) {
-        this.name = name;
-        this.cpf = cpf;
-        this.email = email;
-        this.loans = loans;
-    }
 }
