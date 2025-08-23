@@ -36,4 +36,14 @@ public class BookController {
         return service.updateBook(id, dto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable Long id){
+        return service.deleteBook(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<BookDTO> activateBook(@PathVariable Long id){
+        return service.activeBook(id);
+    }
+
 }

@@ -29,4 +29,14 @@ public class UsersController {
     ){
         return service.searchUser(id, cpf, name);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+        return service.deleteUser(id);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsersDTO> activateUser(@PathVariable Long id){
+        return service.activateUser(id);
+    }
 }
