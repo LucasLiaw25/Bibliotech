@@ -1,4 +1,4 @@
-package validation;
+package com.liaw.BibliotechAPI.validation;
 
 import com.liaw.BibliotechAPI.dto.UsersDTO;
 import com.liaw.BibliotechAPI.exception.UserNotFoundException;

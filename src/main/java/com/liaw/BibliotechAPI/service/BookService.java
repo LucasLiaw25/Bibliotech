@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.liaw.BibliotechAPI.validation.BookValidation;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository repository;
+    private final BookValidation validation;
 
     public ResponseEntity<BookDTO> createBook(BookDTO dto){
         Book book = dto.toEntity();
@@ -49,17 +51,11 @@ public class BookService {
     }
 
     public ResponseEntity<BookDTO> updateBook(Long id, BookDTO bookDTO){
-        Optional<Book> book_search = repository.findById(id);
-
-        if (book_search.isPresent()){
-            Book book = book_search.get();
-            book = bookDTO.toEntity();
-            book.setId(id);
-            BookDTO dto = BookDTO.toDto(book);
-            repository.save(book);
-            return ResponseEntity.ok(dto);
-        }
-        return ResponseEntity.notFound().build();
+        validation.validateBook(bookDTO);
+        Book book = bookDTO.toEntity();
+        book.setId(id);
+        repository.save(book);
+        return ResponseEntity.ok(bookDTO);
     }
 
     @Transactional
