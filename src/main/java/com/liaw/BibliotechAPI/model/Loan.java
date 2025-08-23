@@ -23,10 +23,18 @@ public class Loan {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Users users;
 
     @ManyToOne
+    @JsonIgnore
     private Book book;
+
+    @Column(nullable = false)
+    private boolean returned = false;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
     private LocalDate loanDate;
     private LocalDate returnDate;
@@ -35,15 +43,14 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Loan(Users users, Book book, LocalDate loanDate, LocalDate returnDate, BigDecimal fine, Status status) {
+
+    public Loan(Long id, Users users, Book book, LocalDate loanDate, LocalDate returnDate, BigDecimal fine, Status status) {
+        this.id = id;
         this.users = users;
         this.book = book;
         this.loanDate = loanDate;
         this.returnDate = returnDate;
         this.fine = fine;
         this.status = status;
-
-
-
     }
 }

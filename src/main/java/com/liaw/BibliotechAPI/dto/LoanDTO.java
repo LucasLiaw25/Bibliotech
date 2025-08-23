@@ -12,13 +12,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record LoanDTO(
-        @NotNull Users users, @NotNull Book book,
+        Long id, @NotNull Users users, @NotNull Book book,
         @NotBlank LocalDate loanDate, @NotBlank LocalDate returnDate,
         @NotNull BigDecimal fine, @NotBlank Status status
 ) {
 
     public Loan toEntity(){
         return new Loan(
+                this.id,
                 this.users,
                 this.book,
                 this.loanDate,
@@ -30,6 +31,7 @@ public record LoanDTO(
 
     public static LoanDTO toDto(Loan loan){
         return new LoanDTO(
+                loan.getId(),
                 loan.getUsers(),
                 loan.getBook(),
                 loan.getLoanDate(),

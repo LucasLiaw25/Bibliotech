@@ -4,10 +4,7 @@ import com.liaw.BibliotechAPI.dto.LoanDTO;
 import com.liaw.BibliotechAPI.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +16,7 @@ public class LoanController {
     private final LoanService service;
 
     @PostMapping
-    public ResponseEntity<LoanDTO> createLoan(LoanDTO dto){
+    public ResponseEntity<LoanDTO> createLoan(@RequestBody LoanDTO dto){
         return service.createLoan(dto);
     }
 
