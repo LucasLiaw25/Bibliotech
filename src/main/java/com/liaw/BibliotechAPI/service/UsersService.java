@@ -4,6 +4,8 @@ import com.liaw.BibliotechAPI.dto.UsersDTO;
 import com.liaw.BibliotechAPI.model.Users;
 import com.liaw.BibliotechAPI.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,26 +25,25 @@ public class UsersService {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    public ResponseEntity<List<UsersDTO>> listUser(){
-        List<Users> users = repository.findAll();
-        List<UsersDTO> dto = users.stream()
-                .map(UsersDTO::toDto)
-                .toList();
-        return ResponseEntity.ok(dto);
-    }
-
-    public ResponseEntity<UsersDTO> searchUser(
+    public ResponseEntity<List<UsersDTO>> searchUser(
             Long id, String cpf, String name)
     {
-        Optional<Users> user = repository.findByIdAndCpfAndName(
-                id, cpf, name
-        );
-        if (user.isPresent()){
-            Users user_found = user.get();
-            UsersDTO dto = UsersDTO.toDto(user_found);
-            return ResponseEntity.ok(dto);
-        }
-        return ResponseEntity.notFound().build();
+        Users user = new Users();
+        user.setId(id);
+        user.setCpf(cpf);
+        user.setName(name);
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Users> example = Example.of(user, matcher);
+        List<Users> user_found = repository.findAll(example);
+        List<UsersDTO> dto = user_found.stream()
+                .map(UsersDTO::toDto).toList();
+
+        return ResponseEntity.ok(dto);
     }
 
 
